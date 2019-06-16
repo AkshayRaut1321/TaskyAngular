@@ -1,0 +1,29 @@
+<p>Welcome to most efficient task management app : Tasky</p>
+<p>To help you get started, we've also set up random checklists which you can play around with:</p>
+<tasky-note-editor (checklistClosed)="saveChecklist($event)" (textNoteClosed)="saveNote($event)"
+  (scheduleClicked)="showSchedule($event)">
+  <!-- <ng-container class="dropDownSchedule" *ngTemplateOutlet="dropDownSchedule"></ng-container> -->
+</tasky-note-editor>
+<br />
+<div class="row">
+  <div class="col-sm-3 card" style="height: max-content;" *ngFor="let note of notes">
+    <div class="card-body">
+      <h5 class="card-title">{{note.title}}</h5>
+      <p class="card-text" *ngIf="hasTextLocal(note.text)">{{note.text}}
+      </p>
+      <span *ngIf="true">
+        <label *ngFor="let item of note.items" class="col-sm-12">
+          <span class="checkbox">
+            <input type="checkbox" [id]="newChecklistBoxIdKey + item.id" [(ngModel)]="item.checked">
+            <label [attr.for]="newChecklistBoxIdKey + item.id">{{item.text}}</label>
+          </span>
+        </label>
+      </span>
+      <!-- <ng-container *ngTemplateOutlet="dropDownSchedule"></ng-container> -->
+    </div>
+  </div>
+</div>
+<!-- <ng-container *ngTemplateOutlet="dropDownSchedule"></ng-container> -->
+<!-- <ng-template #dropDownSchedule> -->
+  <div id="dropDownSchedule" #dropDownSchedule *ngIf="!isScheduleVisible" (clickOutside)="closeSchedule();">A</div>
+<!-- </ng-template> -->

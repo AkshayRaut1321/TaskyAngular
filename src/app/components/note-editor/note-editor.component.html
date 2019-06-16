@@ -1,0 +1,30 @@
+<div (clickOutside)="close($event, title);">
+  <div #divNewNote class="editNote" tabindex="-1">
+    <div [hidden]="!editMode">
+      <input id="newTitle" type="text" class="col-sm-5" placeholder="Title" #title>
+    </div>
+    <div *ngIf="!checkBoxMode" (click)="open();">
+      <textarea id="newText" type="text" class="col-sm-5" placeholder="Take a note..." #text
+        (keydown)="typed($event, text)" rows="1"></textarea>
+    </div>
+    <div *ngIf="checkBoxMode" (click)="open();">
+      <div *ngIf="hasChecklistItems()">
+        <div #checkBoxes *ngFor="let item of newChecklist.items; index as index" class="col-sm-12">
+          <span>
+            <input type="checkbox" [id]="newChecklistBoxIdKey + item.id" [(ngModel)]="item.checked">
+            <label [attr.for]="newChecklistBoxIdKey + item.id"></label>
+          </span>
+          <input [id]="newChecklistItemIdKey + index" type="text" placeholder="Take a note..." [(ngModel)]="item.text"
+            class="newChecklistItem" #checklistItemElement
+            (keypress)="editExistingChecklist($event, item, checklistItemElement)">
+        </div>
+      </div>
+      <i class="fas fa-plus red"></i>
+      <input id="newText" type="text" placeholder="Take a note..." #checklistText
+        (keypress)="typed($event, checklistText)">
+    </div>
+    <i class="far fa-check-square fa-lg" (click)="changeEditorMode();"></i>
+    <i #calendarIcon class="far fa-calendar-alt fa-lg" (click)="showSchedule();"></i>
+    <!-- <ng-content select=".dropDownSchedule"></ng-content> -->
+  </div>
+</div>
